@@ -12,13 +12,18 @@ from azureml.data.dataset_factory import TabularDatasetFactory
 
 # TODO: Create TabularDataset using TabularDatasetFactory
 # Data is located at:
-# "https://automlsamplenotebookdata.blob.core.windows.net/automl-sample-notebook-data/bankmarketing_train.csv"
+datastore_path="https://automlsamplenotebookdata.blob.core.windows.net/automl-sample-notebook-data/bankmarketing_train.csv"
 
-ds = ### YOUR CODE HERE ###
+ds = Dataset.Tabular.from_delimited_files(path=datastore_path)
+df = ds.to_pandas_dataframe(3)
+
 
 x, y = clean_data(ds)
 
 # TODO: Split data into train and test sets.
+
+#dividing X,y into train and test data
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=223)
 
 ### YOUR CODE HERE ###a
 
