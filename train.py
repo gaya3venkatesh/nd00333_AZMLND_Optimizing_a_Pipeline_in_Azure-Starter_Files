@@ -35,12 +35,13 @@ def clean_data(data):
     x_df["poutcome"] = x_df.poutcome.apply(lambda s: 1 if s == "success" else 0)
 
     y_df = x_df.pop("y").apply(lambda s: 1 if s == "yes" else 0)
+    return x_df,y_df
 
 # TODO: Create TabularDataset using TabularDatasetFactory
 # Data is located at:
 datastore_path="https://automlsamplenotebookdata.blob.core.windows.net/automl-sample-notebook-data/bankmarketing_train.csv"
 
-ds = Dataset.Tabular.from_delimited_files(path=datastore_path)
+ds = TabularDatasetFactory.from_delimited_files(path=datastore_path)
 
 
 x, y = clean_data(ds)
@@ -48,7 +49,7 @@ x, y = clean_data(ds)
 # TODO: Split data into train and test sets.
 
 #dividing X,y into train and test data
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=223)
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=403)
 
 ### YOUR CODE HERE ###a
 
@@ -71,6 +72,8 @@ def main():
 
     accuracy = model.score(x_test, y_test)
     run.log("Accuracy", np.float(accuracy))
+    os.makedirs('outputs', exist_ok=True)    
+    joblib.dump(value=model, filename='outputs/model.pkl')
 
 if __name__ == '__main__':
     main()
